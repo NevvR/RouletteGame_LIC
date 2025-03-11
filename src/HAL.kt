@@ -10,19 +10,12 @@ object HAL {
         return bin == mask
     }
 
-    fun readBits(mask: Int): Int {
-        return port and mask
-    }
+    fun readBits(mask: Int): Int = port and mask
 
-    fun writeBits(mask: Int, value: Int): Int {
-        return (port and mask) and value
-    }
+    fun writeBits(mask: Int, value: Int) = UsbPort.write((port and mask) and value)
 
-    fun setBits(mask: Int): Int {
-        return port and mask
-    }
-    fun clrBits(mask: Int): Int {
-        return port xor mask
-    }
+    fun setBits(mask: Int) = UsbPort.write(port or mask)
+
+    fun clrBits(mask: Int) = UsbPort.write(port xor mask)
 
 }
