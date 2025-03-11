@@ -14,14 +14,15 @@ object HAL {
         return port and mask
     }
 
-    fun writeBits(mask: Int, value: Int) {
-
+    fun writeBits(mask: Int, value: Int): Int {
+        return (port and mask) and value
     }
 
     fun setBits(mask: Int): Int {
-        val bin = port and mask
-        return bin or mask
+        return port and mask
     }
-
+    fun clrBits(mask: Int): Int {
+        return port xor mask
+    }
 
 }
