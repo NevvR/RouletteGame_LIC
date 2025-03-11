@@ -3,7 +3,7 @@ import isel.leic.UsbPort
 object HAL {
     private val port = UsbPort.read()
 
-    fun init(){}
+    fun init() = println("HAL started")
 
     fun isBit(mask: Int): Boolean{
         val bin = port and mask
@@ -17,5 +17,4 @@ object HAL {
     fun setBits(mask: Int) = UsbPort.write(port or mask)
 
     fun clrBits(mask: Int) = UsbPort.write(port xor mask)
-
 }
