@@ -1,20 +1,20 @@
-import isel.leic.UsbPort
+import isel.leic.UsbPort.*
 
 object HAL {
-    private val port = UsbPort.read()
+    val leds: Int = 0b1011_0010
 
-    fun init() = println("HAL started")
-
-    fun isBit(mask: Int): Boolean{
-        val bin = port and mask
-        return bin == mask
+    fun init() {
+        println("HAL started")
+        write(leds)
     }
 
-    fun readBits(mask: Int): Int = port and mask
+    fun isBit(mask: Int): Boolean = (read() and mask) > 0
 
-    fun writeBits(mask: Int, value: Int) = UsbPort.write((port and mask) and value)
+    fun readBits(mask: Int): Int = read() and mask
 
-    fun setBits(mask: Int) = UsbPort.write(port or mask)
+    fun writeBits(mask: Int, value: Int) = write((read() and mask) and value)
 
-    fun clrBits(mask: Int) = UsbPort.write(port xor mask)
+    fun setBits(mask: Int) = write(read() or mask)
+
+    fun clrBits(mask: Int) = write(read() xor mask)
 }
