@@ -1,7 +1,8 @@
 import isel.leic.UsbPort.*
 
 object HAL {
-    val leds: Int = 0b1011_0010
+    var leds: Int = 0
+    var clock = 0
 
     fun init() {
         println("HAL started")
@@ -10,11 +11,20 @@ object HAL {
 
     fun isBit(mask: Int): Boolean = (read() and mask) > 0
 
-    fun readBits(mask: Int): Int = read() and mask
+    fun readBits(mask: Int): Int = leds and mask
 
-    fun writeBits(mask: Int, value: Int) = write((read() and mask) and value)
+    fun writeBits(mask: Int, value: Int) {
+        leds = leds or (mask and value)
+        write(leds)
+    }
 
-    fun setBits(mask: Int) = write(read() or mask)
+    fun setBits(mask: Int) {
+        leds = leds or mask
+        write(leds)
+    }
 
-    fun clrBits(mask: Int) = write(read() xor mask)
+    fun clrBits(mask: Int) {
+        leds = leds and mask.inv()
+        write(leds)
+    }
 }
