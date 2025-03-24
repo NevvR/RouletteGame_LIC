@@ -13,7 +13,7 @@ object LCD {
     private fun writeNibbleParallel(rs: Boolean, data: Int) {
         HAL.setBits(E_MASK)
         if (rs) HAL.setBits(RS_MASK) else HAL.clrBits(RS_MASK)
-        HAL.writeBits(DATA_MASK, data)
+        HAL.writeBits(0x0F, data)
         HAL.clrBits(E_MASK)
     }
 
@@ -38,7 +38,26 @@ object LCD {
     }
 
     fun init(){
-
+        println("Intializing LCD")
+        writeCMD(0x03)
+        Time.sleep(5)
+        writeCMD(0x03)
+        Time.sleep(1)
+        writeCMD(0x03)
+        Time.sleep(2)
+        writeCMD(0x02)
+        writeCMD(0x02)
+        Time.sleep(2)
+        writeCMD(0x0D)
+        writeCMD(0x08)
+        Time.sleep(1)
+        writeCMD(0x00)
+        writeCMD(0x01)
+        Time.sleep(1)
+        writeCMD(0x00)
+        writeCMD(0x07)
+        Time.sleep(1)
+        println("LCD initialized")
     }
 
     fun write(c: Char){
@@ -54,7 +73,13 @@ object LCD {
     }
 
     fun clear(){
-
+        writeCMD(0x00)
     }
 }
 
+fun main() {
+    HAL.init()
+    KBD.init()
+    LCD.init()
+    LCD.write("HELLO WORLD")
+}

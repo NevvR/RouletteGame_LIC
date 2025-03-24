@@ -13,7 +13,7 @@ object KBD {
 
     fun init() {
         println("KBD initiated.")
-        write(NONE)
+        //HAL.init()
     }
 
     fun getKey(): Char {
@@ -31,4 +31,11 @@ object KBD {
         }
         return NONE.toChar()
     }
+}
+
+fun main() {
+    HAL.init()
+    KBD.init()
+    HAL.setBits(0x05)
+    KBD.getKey()
 }
