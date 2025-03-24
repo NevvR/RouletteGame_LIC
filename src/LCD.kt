@@ -63,7 +63,7 @@ object LCD {
 
     fun write(c: Char){
         writeDATA(c.hashCode())
-        Time.sleep(1000)
+        Time.sleep(1000/40)
     }
 
     fun write(text: String){
@@ -75,7 +75,7 @@ object LCD {
     }
 
     fun clear(){
-        writeCMD(0x00)
+        writeCMD(CLEAR_DISPLAY)
     }
 }
 
@@ -83,5 +83,8 @@ fun main() {
     HAL.init()
     KBD.init()
     LCD.init()
+    LCD.write("Boa tarde!")
+    Time.sleep(2000)
+    LCD.clear()
     LCD.write("Roulette Game")
 }
