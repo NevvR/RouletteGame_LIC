@@ -2,18 +2,26 @@ import isel.leic.UsbPort
 import isel.leic.utils.*
 
 object LCD {
+    private const val FUNCTIONSET_TO_8BIT = 0x03
+    private const val FUNCTIONSET_TO_4BIT = 0x02
+    private const val FUNCTIONSET_2LINES = 0x28
+    private const val DISPLAY_OFF = 0x08
+    private const val CLEAR_DISPLAY = 0x01
+    private const val ENTRY_MODE_SET = 0x06
+    private const val DISPLAY_ON = 0x0F
+
     private const val LINES = 2
     private const val COLS = 16
     private const val SERIAL_INTERFACE = false
 
-    private const val RS_MASK = 0x20
-    private const val E_MASK = 0x10
+    private const val RS_MASK = 0x10
+    private const val E_MASK = 0x20
     private const val DATA_MASK = 0x0F
 
     private fun writeNibbleParallel(rs: Boolean, data: Int) {
-        HAL.setBits(E_MASK)
         if (rs) HAL.setBits(RS_MASK) else HAL.clrBits(RS_MASK)
-        HAL.writeBits(0x0F, data)
+        HAL.setBits(E_MASK)
+        HAL.writeBits(DATA_MASK, data)
         HAL.clrBits(E_MASK)
     }
 
@@ -25,8 +33,9 @@ object LCD {
     }
 
     private fun writeByte(rs: Boolean, data: Int){
-        writeNibble(rs, data.shr(4)) //0x0f
-        writeNibble(rs, data) //0xf0
+        writeNibble(rs, data.ushr(4))
+        writeNibble(rs, data)
+        Time.sleep(10)
     }
 
     private fun writeCMD(data: Int){
@@ -38,30 +47,23 @@ object LCD {
     }
 
     fun init(){
-        println("Intializing LCD")
-        writeCMD(0x03)
+        Time.sleep(15)
+        writeNibble(false, FUNCTIONSET_TO_8BIT)
         Time.sleep(5)
-        writeCMD(0x03)
+        writeNibble(false, FUNCTIONSET_TO_8BIT)
         Time.sleep(1)
-        writeCMD(0x03)
-        Time.sleep(2)
-        writeCMD(0x02)
-        writeCMD(0x02)
-        Time.sleep(2)
-        writeCMD(0x0D)
-        writeCMD(0x08)
-        Time.sleep(1)
-        writeCMD(0x00)
-        writeCMD(0x01)
-        Time.sleep(1)
-        writeCMD(0x00)
-        writeCMD(0x07)
-        Time.sleep(1)
-        println("LCD initialized")
+        writeNibble(false, FUNCTIONSET_TO_8BIT)
+        writeNibble(false, FUNCTIONSET_TO_4BIT)
+        writeCMD(FUNCTIONSET_2LINES)
+        writeCMD(DISPLAY_OFF)
+        writeCMD(CLEAR_DISPLAY)
+        writeCMD(ENTRY_MODE_SET)
+        writeCMD(DISPLAY_ON)
     }
 
     fun write(c: Char){
         writeDATA(c.hashCode())
+        Time.sleep(1000)
     }
 
     fun write(text: String){
@@ -81,5 +83,5 @@ fun main() {
     HAL.init()
     KBD.init()
     LCD.init()
-    LCD.write("HELLO WORLD")
+    LCD.write("Roulette Game")
 }

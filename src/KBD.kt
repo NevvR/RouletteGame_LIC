@@ -8,8 +8,7 @@ private const val GET_BITS = 0x0F
 private val ARRAY = arrayOf('1','4','7','*','2','5','8','0','3','6','9','#','A','B','C','D')
 
 object KBD {
-    const val NONE = 0
-    private val clock = HAL.clock
+    private const val NONE = 0
 
     fun init() {
         println("KBD initiated.")
@@ -18,8 +17,10 @@ object KBD {
 
     fun getKey(): Char {
         if (HAL.isBit(GET_VAL)){
+            val key = ARRAY[HAL.readBits(GET_BITS) and GET_BITS]
             HAL.setBits(GET_ACK)
-            return ARRAY[HAL.readBits(GET_BITS)]
+            while (HAL.isBit(GET_VAL)) HAL.clrBits(GET_ACK)
+            return key
         } else return NONE.toChar()
     }
 

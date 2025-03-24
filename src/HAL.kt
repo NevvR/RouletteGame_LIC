@@ -1,8 +1,7 @@
 import isel.leic.UsbPort.*
 
 object HAL {
-    var output: Int = 0
-    var clock = 0
+    private var output: Int = 0
 
     fun init() {
         println("HAL started")
@@ -14,8 +13,8 @@ object HAL {
     fun readBits(mask: Int): Int = output and mask
 
     fun writeBits(mask: Int, value: Int) {
-        output = output or (mask and value)
-        write(output)
+        clrBits(mask)
+        setBits(mask and value)
     }
 
     fun setBits(mask: Int) {
@@ -30,5 +29,4 @@ object HAL {
 }
 
 fun main() {
-
 }
