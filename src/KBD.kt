@@ -23,10 +23,6 @@ object KBD {
         } else return NONE.toChar()
     }
 
-    /*fun waitKey(timeout: Long): Char {
-        return 'c'
-    }*/
-
     fun waitKey(timeout: Long): Char {
         val startTime = Time.getTimeInMillis()
         while (Time.getTimeInMillis() - startTime < timeout){
