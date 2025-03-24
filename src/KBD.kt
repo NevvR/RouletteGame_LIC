@@ -1,4 +1,5 @@
 import isel.leic.UsbPort.*
+import isel.leic.utils.*
 
 private const val GET_ACK = 0x80
 private const val GET_VAL = 0x80
@@ -27,8 +28,8 @@ object KBD {
     }*/
 
     fun waitKey(timeout: Long): Char {
-        val startTime = clock
-        while (clock - startTime < timeout){
+        val startTime = Time.getTimeInMillis()
+        while (Time.getTimeInMillis() - startTime < timeout){
             val key = getKey()
             if (key != NONE.toChar()) return key
         }
