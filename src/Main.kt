@@ -1,3 +1,5 @@
+
+
 fun main() {
-    println(KBD.getKey())
+    println('A'.hashCode())
 }
