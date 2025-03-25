@@ -71,7 +71,8 @@ object LCD {
     }
 
     fun cursor(line: Int, column: Int){
-
+        val jump = 128 or line.shl(6) or column
+        writeCMD(jump)
     }
 
     fun clear(){
@@ -87,4 +88,6 @@ fun main() {
     Time.sleep(2000)
     LCD.clear()
     LCD.write("Roulette Game")
+    LCD.cursor(1, 0)
+    LCD.write("ISEL-LIC SV2425")
 }
