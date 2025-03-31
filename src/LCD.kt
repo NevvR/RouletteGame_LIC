@@ -20,8 +20,11 @@ object LCD {
 
     private fun writeNibbleParallel(rs: Boolean, data: Int) {
         if (rs) HAL.setBits(RS_MASK) else HAL.clrBits(RS_MASK)
+        Time.sleep(1)
         HAL.setBits(E_MASK)
+        Time.sleep(1)
         HAL.writeBits(DATA_MASK, data)
+        Time.sleep(1)
         HAL.clrBits(E_MASK)
     }
 
@@ -63,7 +66,7 @@ object LCD {
 
     fun write(c: Char){
         writeDATA(c.hashCode())
-        Time.sleep(1000/40)
+        Time.sleep(2)
     }
 
     fun write(text: String){
@@ -84,7 +87,7 @@ fun main() {
     HAL.init()
     KBD.init()
     LCD.init()
-    LCD.write("Boa tarde!")
+    LCD.write("Hello, world!")
     Time.sleep(2000)
     LCD.clear()
     LCD.write("Roulette Game")

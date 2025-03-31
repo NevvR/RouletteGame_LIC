@@ -10,7 +10,7 @@ object HAL {
 
     fun isBit(mask: Int): Boolean = (read() and mask) > 0
 
-    fun readBits(mask: Int): Int = output and mask
+    fun readBits(mask: Int): Int = read() and mask
 
     fun writeBits(mask: Int, value: Int) {
         clrBits(mask)

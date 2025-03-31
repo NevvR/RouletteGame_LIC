@@ -1,8 +1,7 @@
-import isel.leic.UsbPort.*
 import isel.leic.utils.*
 
 private const val GET_ACK = 0x80
-private const val GET_VAL = 0x80
+private const val GET_VAL = 0x10
 private const val GET_BITS = 0x0F
 
 private val ARRAY = arrayOf('1','4','7','*','2','5','8','0','3','6','9','#','A','B','C','D')
@@ -16,12 +15,14 @@ object KBD {
     }
 
     fun getKey(): Char {
-        if (HAL.isBit(GET_VAL)){
-            val key = ARRAY[HAL.readBits(GET_BITS) and GET_BITS]
+        var key: Char = NONE.toChar()
+        if (HAL.isBit(GET_VAL)) {
+            key = ARRAY[HAL.readBits(GET_BITS)]
             HAL.setBits(GET_ACK)
-            while (HAL.isBit(GET_VAL)) HAL.clrBits(GET_ACK)
-            return key
-        } else return NONE.toChar()
+            while (HAL.isBit(GET_VAL)){}
+            HAL.clrBits(GET_ACK)
+        }
+        return key
     }
 
     fun waitKey(timeout: Long): Char {
@@ -37,6 +38,5 @@ object KBD {
 fun main() {
     HAL.init()
     KBD.init()
-    HAL.setBits(0x05)
-    KBD.getKey()
+    while(true) println(KBD.waitKey(50000))
 }
