@@ -10,7 +10,7 @@ object TUI {
         var wrote = 0
         while (true) {
             while (wrote < 16) {
-                LCD.write(KBD.waitKey(50000))
+                LCD.write(KBD.waitKey(Long.MAX_VALUE))
                 wrote++
             }
             LCD.cursor(1, 0)
