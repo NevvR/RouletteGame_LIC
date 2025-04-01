@@ -14,8 +14,7 @@ object TUI {
                 wrote++
             }
             LCD.cursor(1, 0)
-            wrote = 0
-            while (wrote < 16) {
+            while (wrote < 32) {
                 LCD.write(KBD.waitKey(50000))
                 wrote++
             }
