@@ -66,7 +66,7 @@ object LCD {
 
     fun write(c: Char){
         writeDATA(c.hashCode())
-        Time.sleep(2)
+        Time.sleep(50)
     }
 
     fun write(text: String){
