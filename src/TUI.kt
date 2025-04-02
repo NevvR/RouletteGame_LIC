@@ -15,7 +15,7 @@ object TUI {
             }
             LCD.cursor(1, 0)
             while (wrote < 32) {
-                LCD.write(KBD.waitKey(50000))
+                LCD.write(KBD.waitKey(Long.MAX_VALUE))
                 wrote++
             }
             wrote = 0
