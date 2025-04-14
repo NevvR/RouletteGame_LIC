@@ -29,4 +29,8 @@ object HAL {
 }
 
 fun main() {
+    HAL.init()
+    while (true) {
+        println(HAL.readBits(0x0F))
+    }
 }
